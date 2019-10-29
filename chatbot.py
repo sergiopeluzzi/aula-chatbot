@@ -40,6 +40,7 @@ class Chatbot :
             c = input(self.nome + ": Qual seria a resposta para essa pergunta? ")
             self.conversa.append(c.lower())
             f.write(',' + c.lower())
+            f.close()
         return r
             
     def tchau(self) :
