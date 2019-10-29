@@ -5,7 +5,7 @@ class Chatbot :
 
     f = open(arquivo, 'r')
     x = f.read()
-    conversa = x.split(',')
+    conversa = x.split(';')
     f.close()
 
     def __init__(self, nome) :
@@ -35,11 +35,11 @@ class Chatbot :
         else :
             self.conversa.append(r.lower())
             f = open(self.arquivo, 'a')
-            f.write(',' + r.lower())
+            f.write(';' + r.lower())
             print(self.nome + ": Não sei responder!")
             c = input(self.nome + ": Qual seria a resposta para essa pergunta? ")
             self.conversa.append(c.lower())
-            f.write(',' + c.lower())
+            f.write(';' + c.lower())
             f.close()
         return r
             
