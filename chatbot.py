@@ -1,12 +1,8 @@
 #classe Chatbot
-class Chatbot :
-    conversa = []
-    arquivo = 'conversa.txt'
+from fileHandler import FileHandler
 
-    f = open(arquivo, 'r')
-    x = f.read()
-    conversa = x.split(';')
-    f.close()
+class Chatbot :
+    fh = FileHandler('newconversa.txt')
 
     def __init__(self, nome) :
         self.nome = nome
@@ -20,7 +16,7 @@ class Chatbot :
     def intro(self) :
         print("{}: Olá meu nome é {}".format(self.nome, self.nome))
         print("{}: Eu sou uma I.A. que irá aprender com você".format(self.nome))
-        resp = input("{}: Vamos começar? ".format(self.nome))
+        resp = input("{}: Vamos começar? (S/N): ".format(self.nome))
         return resp
     
     def conversar(self) :
@@ -29,19 +25,18 @@ class Chatbot :
         if r == '.sair' :
             return r
 
-        if r.lower() in self.conversa :
-            i = self.conversa.index(r.lower())
-            print(self.nome + ": " + self.conversa[i+1].capitalize())
+        if self.fh.comunica(r) != 0 :
+            print(self.nome + ": " + self.fh.comunica(r))
         else :
-            self.conversa.append(r.lower())
-            f = open(self.arquivo, 'a')
-            f.write(';' + r.lower())
-            print(self.nome + ": Não sei responder!")
-            c = input(self.nome + ": Qual seria a resposta para essa pergunta? ")
-            self.conversa.append(c.lower())
-            f.write(';' + c.lower())
-            f.close()
+            self.aprender(r)
+            
         return r
+
+    def aprender(self, p) :
+        print(self.nome + ": Não sei responder!")
+        r = input(self.nome + ": Qual seria a resposta para essa pergunta? ")
+        self.fh.gravarArquivo(p, r)
+
             
     def tchau(self) :
         print("{}: Tchau".format(self.nome))
